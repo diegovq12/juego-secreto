@@ -14,7 +14,7 @@ function asignarTextoElemento(elemento, texto) {
 function verificarIntento() {
     
     let numeroDeUsuario;
-    if(intentos < maxIntentos){ 
+    if(intentos <= maxIntentos){ 
         numeroDeUsuario = parseInt(document.getElementById('valorUsuario').value)
     }else
     {
