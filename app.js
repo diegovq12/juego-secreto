@@ -1,6 +1,7 @@
 let rangoMin = 1;
-let rangoMax = 5;
+let rangoMax = 10;
 let intentos;
+let maxIntentos = 3;
 let numeroAleatorio;
 let listaNumerosGenerados = [];
 
@@ -11,7 +12,17 @@ function asignarTextoElemento(elemento, texto) {
 }
 
 function verificarIntento() {
-    let numeroDeUsuario = parseInt(document.getElementById('valorUsuario').value)
+    
+    let numeroDeUsuario;
+    if(intentos < maxIntentos){ 
+        numeroDeUsuario = parseInt(document.getElementById('valorUsuario').value)
+    }else
+    {
+        asignarTextoElemento('p',`Perdiste! el numero secreto era ${numeroAleatorio}`);
+        limpiarCaja();
+        document.getElementById('reiniciar').removeAttribute('disabled');
+        return;
+    }
     // console.log(`Numero aleatorio ${numeroAleatorio}`);
     // console.log(`numero De Usuario ${numeroDeUsuario}`);
 
@@ -23,11 +34,12 @@ function verificarIntento() {
     } else {
         //usuario no acerto
         if (numeroAleatorio < numeroDeUsuario) {
-            asignarTextoElemento('p', 'El numero es menor');
+            asignarTextoElemento('p', `El numero es menor te ${((maxIntentos - intentos)=== 1)?'queda': 'quedan'} ${maxIntentos - intentos} ${((maxIntentos - intentos)=== 1)?'intento': 'intentos'}`);
         }
         else {
-            asignarTextoElemento('p', 'El numero es mayor');
+            asignarTextoElemento('p', `El numero es mayor te ${((maxIntentos - intentos)=== 1)?'queda': 'quedan'} ${maxIntentos - intentos} ${((maxIntentos - intentos)=== 1)?'intento': 'intentos'}`);
         }
+        
         intentos++;
         limpiarCaja();
     }
@@ -42,6 +54,7 @@ function generarNumeroAleatorio(min, max) {
     //Si el numero generado esta incluido en la lista
     console.log(numeroGenerado);
     console.log(listaNumerosGenerados);
+    
     //Si ya sorteamos todos los numeros
     if (listaNumerosGenerados.length === max) {
         asignarTextoElemento('p', 'Ya se generaron todos los numeros posibles');
@@ -66,7 +79,7 @@ function reiniciarJuego() {
 
 function condicionesIniciales() {
     asignarTextoElemento('h1', 'Adivina el numero secreto!');
-    asignarTextoElemento('p', `Ingresa un numero del ${rangoMin} al ${rangoMax}`);
+    asignarTextoElemento('p', `Ingresa un numero del ${rangoMin} al ${rangoMax} Tienes ${maxIntentos}!`);
     document.getElementById('reiniciar').setAttribute('disabled', true);
     numeroAleatorio = generarNumeroAleatorio(rangoMin, rangoMax);
     intentos = 1;
